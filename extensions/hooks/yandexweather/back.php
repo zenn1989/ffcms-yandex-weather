@@ -12,16 +12,21 @@ class hooks_yandexweather_back {
     }
 
     public function install() {
-        $lang_write = array();
-        $lang_write['ru'] = array(
-            'admin_hooks_yandexweather.name' => 'Яндекс погода API',
-            'admin_hooks_yandexweather.desc' => 'Предоставление подключения к API яндекс погоды и разбор XML листов'
-        );
-        $lang_write['en'] = array(
-            'admin_hooks_yandexweather.name' => 'Yandex weather API',
-            'admin_hooks_yandexweather.desc' => 'Provide access to yandex weather API and control XML data'
-        );
-        language::getInstance()->add($lang_write, true);
+        $lang_write = array(
+			'ru' => array(
+				'back' => array(
+					'admin_hooks_yandexweather.name' => 'Яндекс погода API',
+					'admin_hooks_yandexweather.desc' => 'Предоставление подключения к API яндекс погоды и разбор XML листов'
+				)
+			),
+			'en' => array(
+				'back' => array(
+					'admin_hooks_yandexweather.name' => 'Yandex weather API',
+					'admin_hooks_yandexweather.desc' => 'Provide access to yandex weather API and control XML data'					
+				)
+			)
+		);
+        language::getInstance()->add($lang_write);
     }
 
     public function make() {}
