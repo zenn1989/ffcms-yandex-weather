@@ -1,6 +1,7 @@
 <?php
 
 use engine\language;
+use engine\template;
 
 class hooks_yandexweather_back {
     protected static $instance = null;
@@ -29,5 +30,7 @@ class hooks_yandexweather_back {
         language::getInstance()->add($lang_write);
     }
 
-    public function make() {}
+    public function make() {
+        template::getInstance()->set(template::TYPE_CONTENT, 'body', template::getInstance()->twigRender('miss_settings.tpl', array()));
+    }
 }

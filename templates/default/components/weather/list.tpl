@@ -11,7 +11,7 @@
                 {{ language.yandexweather_map_title }}
             </div>
             <div class="panel-body">
-                <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru_RU" type="text/javascript"></script>
+                <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang={{ system.lang }}" type="text/javascript"></script>
                 <script type="text/javascript">
                     ymaps.ready(init);
                     var myMap,myPlacemark;
@@ -19,8 +19,8 @@
 
                     function init(){
                         myMap = new ymaps.Map ("map", {
-                            center: [44.944101, 34.107904],
-                            zoom: 8
+                            center: [{{ config.map_center_lat }}, {{ config.map_center_lon }}],
+                            zoom: {{ config.map_zoom }}
                         });
                         myMap.behaviors
                                 .disable('ruler')
@@ -63,7 +63,7 @@
                 {% endif %}
             </div>
             <div class="panel-body text-center">
-                {{ language.yandexweather_list_date }} {{ city.day[0]['date']['unixtime']|date('d.m.Y') }}
+                <p>{{ language.yandexweather_list_date }} {{ city.day[0]['date']['unixtime']|date('d.m.Y') }}</p>
                 <img src="{{ system.script_url }}/upload/weather/citys/{{ city_id }}.jpg" class="center-block img-responsive" />
                 {{ language.yandexweather_list_now }}: <img src="{{ system.script_url }}/upload/weather/{{ city.total.image }}.png" width="16px" /> {{ city.total.mid_temperature }}
                 <hr />

@@ -26,7 +26,7 @@ class modules_yandexweather_back {
 					'yandexweather_water_temp' => 'Вода',
 					'yandexweather_all' => 'Все города...'
 				),
-				'back' = >array(
+				'back' => array(
 					'admin_modules_yandexweather.name' => 'Погода Яндекс',
 					'admin_modules_yandexweather.desc' => 'Вывод данных на сайт с помощью хука yandexweather',
 					'admin_modules_yandexweather_settings' => 'Настройки',
@@ -41,7 +41,7 @@ class modules_yandexweather_back {
 					'yandexweather_water_temp' => 'Water',
 					'yandexweather_all' => 'All citys...'
 				),
-				'back' = >array(
+				'back' => array(
 					'admin_modules_yandexweather.name' => 'Yandex weather',
 					'admin_modules_yandexweather.desc' => 'Display weather data according hook yandexweather',
 					'admin_modules_yandexweather_settings' => 'Settings',

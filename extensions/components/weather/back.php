@@ -5,6 +5,8 @@ use engine\extension;
 use engine\admin;
 use engine\template;
 use engine\language;
+use engine\database;
+use engine\property;
 
 class components_weather_back {
     protected static $instance = null;
@@ -43,6 +45,12 @@ class components_weather_back {
 					'admin_components_weather.desc' => 'Вывод данных на страницу /weather/ о погоде в городах',
 					'admin_components_weather_settings_ids_title' => 'ID Городов',
 					'admin_components_weather_settings_ids_desc' => 'Список id городов, которые будут доступны для пользователей. Пример: 33989, 34522. См. http://weather.yandex.ru/static/cities.xml атрибут id.',
+                    'admin_components_weather_lat_title' => 'Центр карты: широта',
+                    'admin_components_weather_lat_desc' => 'Указатель широты центра координат для отображаемой карты',
+                    'admin_components_weather_lon_title' => 'Центр карты: долгота',
+                    'admin_components_weather_lon_desc' => 'Указатель долготы центра координат для отображаемой карты',
+                    'admin_components_weather_zoom_title' => 'Масштабировование',
+                    'admin_components_weather_zoom_desc' => 'Параметр масштабирования карты от 1 до 12 (чем больше значение - тем детальней карта)',
 					'admin_components_weather_settings' => 'Настройки'
 				)
 			)
@@ -74,12 +82,23 @@ class components_weather_back {
 					'admin_components_weather.desc' => 'Display data about citys weather on page /weather/',
 					'admin_components_weather_settings_ids_title' => 'City ids',
 					'admin_components_weather_settings_ids_desc' => 'City id list what be available for users. Ex: 33989, 34522. Look at http://weather.yandex.ru/static/cities.xml attribute id.',
+                    'admin_components_weather_lat_title' => 'Map center: latitude',
+                    'admin_components_weather_lat_desc' => 'A pointer to the latitude of the center coordinates for the displayed map',
+                    'admin_components_weather_lon_title' => 'Map center: longitude',
+                    'admin_components_weather_lon_desc' => 'A pointer to the longitude of the center coordinates for the displayed map',
+                    'admin_components_weather_zoom_title' => 'Zoom index',
+                    'admin_components_weather_zoom_desc' => 'The zoom setting of the cards from 1 to 12 (the higher the value, the more detailed the map)',
 					'admin_components_weather_settings' => 'Settings'
 				)
 			)
 		);
         language::getInstance()->add($lang_ru);
         language::getInstance()->add($lang_en);
+        $default_cfg = 'a:4:{s:12:"city_id_list";s:11:"27612,27613";s:14:"map_center_lat";s:5:"55.75";s:14:"map_center_lon";s:5:"37.61";s:8:"map_zoom";s:1:"7";}';
+        $stmt = database::getInstance()->con()->prepare("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET configs = ? WHERE `type` = 'components' AND `dir` = 'weather'");
+        $stmt->bindParam(1, $default_cfg, \PDO::PARAM_STR);
+        $stmt->execute();
+        $stmt = null;
     }
 
     public function make() {
@@ -92,6 +111,9 @@ class components_weather_back {
         }
 
         $params['config']['city_id_list'] = extension::getInstance()->getConfig('city_id_list', 'weather', extension::TYPE_COMPONENT, 'str');
+        $params['config']['map_center_lat'] = extension::getInstance()->getConfig('map_center_lat', 'weather', extension::TYPE_COMPONENT, 'str');
+        $params['config']['map_center_lon'] = extension::getInstance()->getConfig('map_center_lon', 'weather', extension::TYPE_COMPONENT, 'str');
+        $params['config']['map_zoom'] = extension::getInstance()->getConfig('map_zoom', 'weather', extension::TYPE_COMPONENT, 'int');
 
         $params['extension']['title'] = admin::getInstance()->viewCurrentExtensionTitle();
 

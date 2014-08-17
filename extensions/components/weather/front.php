@@ -81,6 +81,9 @@ class components_weather_front {
                 $this->checkWeatherImage($image);
             }
         }
+        $params['config']['map_center_lat'] = extension::getInstance()->getConfig('map_center_lat', 'weather', extension::TYPE_COMPONENT, 'str');
+        $params['config']['map_center_lon'] = extension::getInstance()->getConfig('map_center_lon', 'weather', extension::TYPE_COMPONENT, 'str');
+        $params['config']['map_zoom'] = extension::getInstance()->getConfig('map_zoom', 'weather', extension::TYPE_COMPONENT, 'int');
         $tmp = template::getInstance()->twigRender('components/weather/list.tpl', $params);
         cache::getInstance()->store('weather_list_'.language::getInstance()->getUseLanguage(), $tmp);
         return $tmp;
