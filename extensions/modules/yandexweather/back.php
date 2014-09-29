@@ -5,6 +5,8 @@ use engine\extension;
 use engine\system;
 use engine\template;
 use engine\language;
+use engine\database;
+use engine\property;
 
 class modules_yandexweather_back {
 
@@ -15,6 +17,14 @@ class modules_yandexweather_back {
             self::$instance = new self();
         }
         return self::$instance;
+    }
+	
+	public function _version() {
+        return '1.0.1';
+    }
+
+    public function _compatable() {
+        return '2.0.2';
     }
 
     public function install() {
@@ -51,6 +61,7 @@ class modules_yandexweather_back {
 			)
 		);
         language::getInstance()->add($lang);
+		database::getInstance()->con()->query("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `version` = '1.0.1', `compatable` = '2.0.2' WHERE `type` = 'modules' AND `dir` = 'yandexweather'");
     }
 
     public function make() {

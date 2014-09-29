@@ -2,6 +2,8 @@
 
 use engine\language;
 use engine\template;
+use engine\database;
+use engine\property;
 
 class hooks_yandexweather_back {
     protected static $instance = null;
@@ -10,6 +12,14 @@ class hooks_yandexweather_back {
         if(is_null(self::$instance))
             self::$instance = new self();
         return self::$instance;
+    }
+	
+	public function _version() {
+        return '1.0.1';
+    }
+
+    public function _compatable() {
+        return '2.0.2';
     }
 
     public function install() {
@@ -28,6 +38,7 @@ class hooks_yandexweather_back {
 			)
 		);
         language::getInstance()->add($lang_write);
+		database::getInstance()->con()->query("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `version` = '1.0.1', `compatable` = '2.0.2' WHERE `type` = 'hooks' AND `dir` = 'yandexweather'");
     }
 
     public function make() {
