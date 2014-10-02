@@ -11,7 +11,7 @@
                 {{ language.yandexweather_map_title }}
             </div>
             <div class="panel-body">
-                <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang={{ system.lang }}" type="text/javascript"></script>
+                <script src="{{ system.protocol }}://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang={{ system.lang }}" type="text/javascript"></script>
                 <script type="text/javascript">
                     ymaps.ready(init);
                     var myMap,myPlacemark;

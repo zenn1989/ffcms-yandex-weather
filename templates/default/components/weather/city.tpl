@@ -26,7 +26,7 @@
         </table>
     </div>
     <div class="col-md-6">
-        <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru_RU" type="text/javascript"></script>
+        <script src="{{ system.protocol }}://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru_RU" type="text/javascript"></script>
         <script type="text/javascript">
             ymaps.ready(init);
             var myMap,myPlacemark;

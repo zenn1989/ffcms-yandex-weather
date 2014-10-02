@@ -23,8 +23,9 @@ class modules_yandexweather_front {
     }
 
     private function getWeather() {
-        if(cache::getInstance()->get('modweather_'.language::getInstance()->getUseLanguage(), self::CACHE_TIME)) {
-            return cache::getInstance()->get('modweather_'.language::getInstance()->getUseLanguage(), self::CACHE_TIME);
+        $cache_file_name = system::getInstance()->getProtocol() . "_mod_weather_" . language::getInstance()->getUseLanguage(); // support HTTP(S) protocol
+        if(cache::getInstance()->get($cache_file_name, self::CACHE_TIME)) {
+            return cache::getInstance()->get($cache_file_name, self::CACHE_TIME);
         }
         $city_list = extension::getInstance()->getConfig('city_ids', 'yandexweather', 'modules', 'str');
         $citys = array();
@@ -50,7 +51,7 @@ class modules_yandexweather_front {
             );
         }
         $temp = template::getInstance()->twigRender('modules/weather/weather.tpl', $params);
-        cache::getInstance()->store('modweather_'.language::getInstance()->getUseLanguage(), $temp);
+        cache::getInstance()->store($cache_file_name, $temp);
         return $temp;
     }
 
