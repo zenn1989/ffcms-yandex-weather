@@ -47,9 +47,11 @@ class components_weather_front {
         $params['weather'] = extension::getInstance()->call(extension::TYPE_HOOK, 'yandexweather')->getWeatherById($city_id, 14);
         $city_seo = language::getInstance()->getUseLanguage() == 'ru' ? $params['weather']['total']['ru_name'] : $params['weather']['total']['name'];
         meta::getInstance()->add('title', language::getInstance()->get('yandexweather_seo_title') . ' - ' . $city_seo);
+		
+		$cache_file_name = system::getInstance()->getProtocol() . "_weather_city_" . language::getInstance()->getUseLanguage(); // support HTTP(S) protocol
 
-        if(cache::getInstance()->get('weather_city_'.$city_id.'_'.language::getInstance()->getUseLanguage(), self::CACHE_TIME))
-            return cache::getInstance()->get('weather_city_'.$city_id.'_'.language::getInstance()->getUseLanguage(), self::CACHE_TIME);
+        if(cache::getInstance()->get($cache_file_name, self::CACHE_TIME))
+            return cache::getInstance()->get($cache_file_name, self::CACHE_TIME);
 
         foreach($params['weather']['day'] as $row) {
             for($i=0;$i<=3;$i++) {
@@ -60,15 +62,16 @@ class components_weather_front {
         $params['city_id'] = $city_id;
 
         $tmp = template::getInstance()->twigRender('components/weather/city.tpl', $params);
-        cache::getInstance()->store('weather_city_'.$city_id.'_'.language::getInstance()->getUseLanguage(), $tmp);
+        cache::getInstance()->store($cache_file_name, $tmp);
 
         return $tmp;
     }
 
     private function viewCityList() {
         meta::getInstance()->add('title', language::getInstance()->get('yandexweather_seo_title'));
-        if(cache::getInstance()->get('weather_list_'.language::getInstance()->getUseLanguage(), self::CACHE_TIME))
-            return cache::getInstance()->get('weather_list_'.language::getInstance()->getUseLanguage(), self::CACHE_TIME);
+		$cache_file_name = system::getInstance()->getProtocol() . "_weather_list_" . language::getInstance()->getUseLanguage(); // support HTTP(S) protocol
+        if(cache::getInstance()->get($cache_file_name, self::CACHE_TIME))
+            return cache::getInstance()->get($cache_file_name, self::CACHE_TIME);
         $params = array();
 
         foreach(self::$citys as $city_id) {
@@ -85,7 +88,7 @@ class components_weather_front {
         $params['config']['map_center_lon'] = extension::getInstance()->getConfig('map_center_lon', 'weather', extension::TYPE_COMPONENT, 'str');
         $params['config']['map_zoom'] = extension::getInstance()->getConfig('map_zoom', 'weather', extension::TYPE_COMPONENT, 'int');
         $tmp = template::getInstance()->twigRender('components/weather/list.tpl', $params);
-        cache::getInstance()->store('weather_list_'.language::getInstance()->getUseLanguage(), $tmp);
+        cache::getInstance()->store($cache_file_name, $tmp);
         return $tmp;
     }
 
