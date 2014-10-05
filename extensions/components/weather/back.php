@@ -16,13 +16,17 @@ class components_weather_back {
             self::$instance = new self();
         return self::$instance;
     }
+	public function _update($from_version) {
+        // now have now changes in db so skip
+        database::getInstance()->con()->query("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `version` = '1.0.1', `compatable` = '2.0.3' WHERE `type` = 'components' AND dir = 'weather'");
+    }
 	
 	public function _version() {
         return '1.0.1';
     }
 
     public function _compatable() {
-        return '2.0.2';
+        return '2.0.3';
     }
 
     public function install() {
@@ -103,7 +107,7 @@ class components_weather_back {
         language::getInstance()->add($lang_ru);
         language::getInstance()->add($lang_en);
         $default_cfg = 'a:4:{s:12:"city_id_list";s:11:"27612,27613";s:14:"map_center_lat";s:5:"55.75";s:14:"map_center_lon";s:5:"37.61";s:8:"map_zoom";s:1:"7";}';
-        $stmt = database::getInstance()->con()->prepare("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET configs = ?, `version` = '1.0.1', `compatable` = '2.0.2' WHERE `type` = 'components' AND `dir` = 'weather'");
+        $stmt = database::getInstance()->con()->prepare("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET configs = ? WHERE `type` = 'components' AND `dir` = 'weather'");
         $stmt->bindParam(1, $default_cfg, \PDO::PARAM_STR);
         $stmt->execute();
         $stmt = null;
