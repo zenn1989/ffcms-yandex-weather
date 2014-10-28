@@ -6,17 +6,9 @@ use engine\system;
 use engine\cache;
 use engine\language;
 
-class modules_yandexweather_front {
+class modules_yandexweather_front extends engine\singleton {
 
     const CACHE_TIME = 1200; // 20 min
-    protected static $instance = null;
-
-    public static function getInstance() {
-        if(is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
 
     public function make() {
         template::getInstance()->set(template::TYPE_MODULE, 'yandexweather', $this->getWeather());

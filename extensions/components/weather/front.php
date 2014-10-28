@@ -8,16 +8,10 @@ use engine\cache;
 use engine\meta;
 use engine\language;
 
-class components_weather_front {
-    protected static $instance = null;
+class components_weather_front extends engine\singleton {
+
     private static $citys = array();
     const CACHE_TIME = 1200;
-
-    public static function getInstance() {
-        if(is_null(self::$instance))
-            self::$instance = new self();
-        return self::$instance;
-    }
 
     public function make() {
         $way = router::getInstance()->shiftUriArray();

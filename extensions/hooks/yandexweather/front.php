@@ -4,14 +4,8 @@ use engine\cache;
 use engine\system;
 
 class hooks_yandexweather_front {
-    protected static $instance = null;
-    const CACHE_TIME = 3600; // 1 hour
 
-    public static function getInstance() {
-        if(is_null(self::$instance))
-            self::$instance = new self();
-        return self::$instance;
-    }
+    const CACHE_TIME = 3600; // 1 hour
 
     public function getWeatherById($city_id, $day_limit = 7) {
         $xml = $this->loadCityXML($city_id);

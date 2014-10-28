@@ -8,17 +8,11 @@ use engine\language;
 use engine\database;
 use engine\property;
 
-class components_weather_back {
-    protected static $instance = null;
+class components_weather_back extends engine\singleton {
 
-    public static function getInstance() {
-        if(is_null(self::$instance))
-            self::$instance = new self();
-        return self::$instance;
-    }
 	public function _update($from_version) {
         // now have now changes in db so skip
-        database::getInstance()->con()->query("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `version` = '1.0.1', `compatable` = '2.0.3' WHERE `type` = 'components' AND dir = 'weather'");
+        database::getInstance()->con()->query("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `version` = '1.0.1', `compatable` = '2.0.4' WHERE `type` = 'components' AND dir = 'weather'");
     }
 	
 	public function _version() {
@@ -26,10 +20,10 @@ class components_weather_back {
     }
 
     public function _compatable() {
-        return '2.0.3';
+        return '2.0.4';
     }
 
-    public function install() {
+    public function _install() {
 		$lang_ru = array(
 			'ru' => array(
 				'front' => array(
@@ -130,6 +124,12 @@ class components_weather_back {
         $params['extension']['title'] = admin::getInstance()->viewCurrentExtensionTitle();
 
         return template::getInstance()->twigRender('components/weather/settings.tpl', $params);
+    }
+	
+	public function _accessData() {
+        return array(
+            'admin/components/weather'
+        );
     }
 
 

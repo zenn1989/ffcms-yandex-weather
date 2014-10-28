@@ -5,18 +5,11 @@ use engine\template;
 use engine\database;
 use engine\property;
 
-class hooks_yandexweather_back {
-    protected static $instance = null;
-
-    public static function getInstance() {
-        if(is_null(self::$instance))
-            self::$instance = new self();
-        return self::$instance;
-    }
+class hooks_yandexweather_back extends engine\singleton {
 
 	public function _update($from_version) {
         // now have now changes in db so skip
-        database::getInstance()->con()->query("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `version` = '1.0.1', `compatable` = '2.0.3' WHERE `type` = 'hooks' AND dir = 'yandexweather'");
+        database::getInstance()->con()->query("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `version` = '1.0.1', `compatable` = '2.0.4' WHERE `type` = 'hooks' AND dir = 'yandexweather'");
     }
 	
 	public function _version() {
@@ -24,10 +17,10 @@ class hooks_yandexweather_back {
     }
 
     public function _compatable() {
-        return '2.0.3';
+        return '2.0.4';
     }
 
-    public function install() {
+    public function _install() {
         $lang_write = array(
 			'ru' => array(
 				'back' => array(
